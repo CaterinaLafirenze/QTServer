@@ -7,14 +7,14 @@ import java.io.*;
 
 public class ServerOneClient extends Thread {
     private Socket socket;
-    private ObjectInputStream in;
-    private ObjectOutputStream out;
+    private BufferedReader in;
+    private PrintWriter out;
     private QTMiner kmeans;
 
     ServerOneClient(Socket s) throws IOException {
         this.socket = s;
-        in = new ObjectInputStream(socket.getInputStream());
-        out = new ObjectOutputStream(socket.getOutputStream());
+        in = new BufferedReader( new InputStreamReader(socket.getInputStream()));
+        out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
         start();
     }
 
@@ -24,8 +24,8 @@ public class ServerOneClient extends Thread {
                 String str = in.readLine();
                 if (str.equals("END")) break;
                 System.out.println("Echoing: " + str);
-                out.writeChars(str);
-                System.out.println();
+                out.println(str);
+                //System.out.println();
             }
             System.out.println("closing...");
         } catch(IOException e) {

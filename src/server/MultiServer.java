@@ -16,7 +16,7 @@ public class MultiServer extends ServerSocket {
         ServerSocket s = new ServerSocket(PORT);
         Socket socket = s.accept();
         System.out.println( "Connessione iniziata: " + socket.getInetAddress());
-        //potrebbe esserci un while
+        
         try{
             while(true){
                 try{
