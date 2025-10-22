@@ -1,8 +1,10 @@
 package server;
 
-import mining.QTMiner;
 import java.net.*;
 import java.io.*;
+import java.sql.SQLOutput;
+import data.*;
+import mining.*;
 
 
 public class ServerOneClient extends Thread {
@@ -19,21 +21,58 @@ public class ServerOneClient extends Thread {
     }
 
     public void run(){
+
+
+        QTMiner qt = null;
+
         try {
             while (true) {
-                
-                Object o =in.readObject();
-                //Integer str = (Integer) o;
-                if (o.equals("END")) break;
-                System.out.println("Echoing: " + o);
-                out.writeObject("Echoing: " + o);
-                out.flush();
-
-                //out.writeChars(str);
-                //out.println();
+            QTMiner kmeans = new QTMiner("/home/paprika/dataSet.txt");
+            Data data ;
+            Object o = in.readObject();
+            System.out.println("Echoing: " + o);
+            switch(o.toString()){
+                case "0": //storeTableFromDB
+                    String table = (String) in.readObject();
+                    System.out.println("Echoing: " + table);
+                    data = new Data(table);
+                    out.writeObject("OK");
+                    break;
+                case "1"://learningFromBbTable
+                    Double radius = (Double) in.readObject();
+                    System.out.println("Echoing: " + radius);
+                    out.writeObject("OK");
+                    //inserire tutti i calcoli
+                    qt = new QTMiner(radius);
+                    try {
+                        
+                        int numIter = qt.compute(data);
+                        System.out.println("Number of clusters:" + numIter);
+                        out.writeObject(numIter);
+                    } catch (ClusteringRadiusException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    System.out.println(qt.getC().toString(data));
+                    out.writeObject(qt.getC().toString(data) );
+                    break;
+                case "2"://storeClusterInFile
+                    out.writeObject("Backup file name:");
+                    String filename = (String) in.readObject();
+                    System.out.print("\nSaving clusters in "+ filename +
+                        ".dmp\nSaving transaction ended!\n");
+                    System.out.println("New execution?(y/n)");
+                    kmeans.salva(filename);
+                    out.writeObject("OK");
+                break;
+                case "3"://learningFromFile
+                    if (kmeans != null) {
+                        System.out.println(kmeans);//stampa solo i centroidi,
+                    }
+                    out.writeObject("OK");
             }
-            System.out.println("closing...");
-        } catch(IOException | ClassNotFoundException e) {
+            }
+        //System.out.println("closing...");
+        } catch(IOException | ClassNotFoundException | EmptyDatasetException e) {
             System.err.println("IO Exception");
         } finally {
             try {

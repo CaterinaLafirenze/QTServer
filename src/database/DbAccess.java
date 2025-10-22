@@ -55,7 +55,8 @@ public class DbAccess {
     public void closeConnection() throws SQLException {
 
         System.out.println("CHIUSO!!!!");
-        conn.close();}
+        conn.close();
+    }
 
 
 
