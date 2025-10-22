@@ -26,9 +26,10 @@ public class ServerOneClient extends Thread {
         QTMiner qt = null;
 
         try {
+            Data data= null;
             while (true) {
             QTMiner kmeans = new QTMiner("/home/paprika/dataSet.txt");
-            Data data ;
+            //Data data = null;
             Object o = in.readObject();
             System.out.println("Echoing: " + o);
             switch(o.toString()){
@@ -45,7 +46,7 @@ public class ServerOneClient extends Thread {
                     //inserire tutti i calcoli
                     qt = new QTMiner(radius);
                     try {
-                        
+
                         int numIter = qt.compute(data);
                         System.out.println("Number of clusters:" + numIter);
                         out.writeObject(numIter);
