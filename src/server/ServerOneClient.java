@@ -6,7 +6,9 @@ import java.sql.SQLOutput;
 import data.*;
 import mining.*;
 
-
+/**
+ *  Classe che permette la comunicazione tra client e server con singola connessione.
+ */
 public class ServerOneClient extends Thread {
     private Socket socket;
     private ObjectInputStream in;
@@ -22,11 +24,6 @@ public class ServerOneClient extends Thread {
 
     public void run(){
 
-
-        //QTMiner qt = null;
-
-
-
         try {
             Data data= null;
             while(true){
@@ -34,53 +31,58 @@ public class ServerOneClient extends Thread {
                 //Data data = null;
                 Object o = in.readObject();
                 System.out.println("Echoing: " + o);
+
                 switch (o.toString()) {
-                    case "0": //storeTableFromDB
+                    //caso in cui l'utente ha scelto di caricare i dati dal datbase.
+                    //Riceve il nome della tabella da controllare e manda OK come feedback.
+                    case "0":
+                        //storeTableFromDB
                         String table = (String) in.readObject();
                         System.out.println("Echoing: " + table);
                         data = new Data(table);
                         out.writeObject("OK");
                         break;
+
+
                     case "1":
-
-                        Double radius = (Double) in.readObject();//learningFromBbTable
+                        //learningFromBbTable
+                        //riceve il valore del raggio definito dall'utente
+                        Double radius = (Double) in.readObject();
                         System.out.println("Echoing: " + radius);
-
                         out.writeObject("OK");
-
-                        //inserire tutti i calcoli
+                        //utilizza il raggio per istanziare un nuovo QTminer
                         kmeans = new QTMiner(radius);
                         try {
+                            //calcola il centroide e determina il piu popoloso
                             int numIter = kmeans.compute(data);
                             System.out.println("Number of clusters:" + numIter);
                             out.writeObject(numIter);
                         } catch (ClusteringRadiusException e) {
                             out.writeObject(e.getMessage());
                         }
-                        System.out.println(kmeans.getC().toString(data));
+                        //stampa a video nel run del client il valore dei centroidi
                         out.writeObject(kmeans.getC().toString(data));
 
                         break;
-                    case "2"://storeClusterInFile
-                        //problemi qui
-                        //out.writeObject("Backup file name:");
+                    //legge il nome del file inviato dal client, salva i centroidi del ClusterSet nel file
+                    // e invia OK come feedback.
+                    case "2":
+                        //storeClusterInFile
                         String filename = (String) in.readObject();
                         kmeans.salva(filename);
                         out.writeObject("OK");
-                        //out.writeObject("\nSaving clusters in " + filename +
-                                //".dmp\nSaving transaction ended!\n");
                         break;
 
-                    case "3"://learningFromFile
-                        //va in 2 poi torna in 3come mai?
+                    //carica il file che contiene i valori dei centoridi salvati nella precedente esecuzione
+                    //invia un OK come feedback e stampa a video il file.
+                    case "3":
+                        //learningFromFile
                         kmeans = new QTMiner("/home/paprika/IdeaProjects/QTServer/" + in.readObject());
                         out.writeObject("OK");
-                        out.writeObject(kmeans.getC().toString());//stampa solo i centroidi,
-                        //???
+                        out.writeObject(kmeans.getC().toString());
                         break;
                 }
             }
-        //System.out.println("closing...");
         } catch(IOException | ClassNotFoundException | EmptyDatasetException e) {
             System.err.println("IO Exception");
         } finally {

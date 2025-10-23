@@ -36,7 +36,6 @@ public class MultiServer extends ServerSocket {
         
         try {
             MultiServer ms = new MultiServer(8080);
-            //ms.run();
         }catch(IOException e){
             e.printStackTrace();
         }

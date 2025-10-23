@@ -6,6 +6,10 @@ import java.io.*;
 import java.util.Iterator;
 import java.util.*;
 
+/**
+ * Classe che include l'implementazione dello algoritmo QT utilizzato per calcolare i centroidi
+ * e ricercare il più poloso.
+ */
 public class QTMiner implements Serializable {
 
     private ClusterSet C;
@@ -26,7 +30,12 @@ public class QTMiner implements Serializable {
         }
     }
 
-
+    /**
+     * Apre il file identificato da fileName e salva lo oggetto riferito dal ClusterSet in tale file.
+     * @param fileName
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public void salva(String fileName) throws FileNotFoundException, IOException{
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))){
             oos.writeObject(this.C);
@@ -42,6 +51,16 @@ public class QTMiner implements Serializable {
         return C;
     }
 
+    /**
+     * Esegue lo algoritmo QT, costruisce un clsuter per ciascuna tupla non ancora clusterizzata, include nel cluster
+     * i punti che ricadono nel vicinato sferico delle tuple aventi raggio radius.
+     * Salva il candidato cluster più popoloso e rimuove tutti i punti di tale cluster dallo elenco
+     * delle tuple ancora da clsuterizzare.
+     * Ritorna al primo passo finche ci sono ancota tuple da assegnare ad un cluster.
+     * @param data
+     * @return Numero di cluster scoperti.
+     * @throws ClusteringRadiusException
+     */
     public int compute(Data data) throws ClusteringRadiusException{
 
         int numclusters=0;
@@ -70,8 +89,6 @@ public class QTMiner implements Serializable {
 
     public Cluster buildCandidateCluster(Data data, boolean[] isClustered){
 
-
-        //ClusterSet CS = new ClusterSet();
         Cluster candidate=new Cluster();
         int countClusterset = 0;
         for (int i =0; i<data.getNumberOfExamples(); i++){
@@ -85,8 +102,6 @@ public class QTMiner implements Serializable {
                         }
                     }
                 }
-                //CS.add(cl);
-                //countClusterset = countClusterset + 1;
                 if(cl.getSize() > countClusterset){
                     countClusterset = cl.getSize();
                     candidate=cl;

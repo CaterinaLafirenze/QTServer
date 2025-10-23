@@ -27,20 +27,11 @@ public class DiscreteAttribute extends Attribute implements Iterable<String>{
         this.values=values;
     }
 
-    /**
-     * Metodo che restituisce la dimensione di values.
-     * @return
-     */
 
     int getNumberOfDistinctValues() {
         return values.size();
     }
 
-    /**
-     * Metodo che restituisce il valore nella posizione i.
-     * @param i
-     * @return
-     */
     /*String getValue(int i){
         return values[i];
     }*/

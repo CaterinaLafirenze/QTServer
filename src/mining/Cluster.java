@@ -4,6 +4,10 @@ import data.*;
 import java.io.Serializable;
 import java.util.*;
 import java.lang.*;
+
+/**
+ * Classe che modella cluster.
+ */
 class Cluster implements Iterable<Integer>, Comparable <Cluster>, Serializable {
 
 	private Tuple centroid;
@@ -15,6 +19,10 @@ class Cluster implements Iterable<Integer>, Comparable <Cluster>, Serializable {
         this.clusteredData = clusteredData;
 	}
 
+    /**
+     * Costruttore della classe Cluster che prende come parametro una Tupla e inizializza centroide e clusteredData.
+     * @param centroid rappresenta una tupla.
+     */
 	Cluster(Tuple centroid){
 		this.centroid=centroid;
 		clusteredData=new HashSet<>();
@@ -38,12 +46,15 @@ class Cluster implements Iterable<Integer>, Comparable <Cluster>, Serializable {
 	}
 	*/
 
-	//remove the tuple that has changed the cluster
 	/*void removeTuple(int id){
 		clusteredData.delete(id);
 		
 	}*/
-	
+
+    /**
+     * Prende la dimensione di clusteredData.
+     * @return dimensione di clusteredData.
+     */
 	int  getSize(){
 		return clusteredData.size();
 	}
@@ -56,7 +67,13 @@ class Cluster implements Iterable<Integer>, Comparable <Cluster>, Serializable {
     public Iterator <Integer> iterator(){
         return clusteredData.iterator();
     }
-    //in prova
+
+    /**
+     * Compara gli elementi del cluster.
+     * @param o cluster.
+     * @return restituisce 1 se la dimensione del cluster corrente è maggiore
+     * di quello indicato dal parametro altrimenti -1.
+     */
     public int compareTo(Cluster o){
 
             if(this.getSize()>o.getSize()){

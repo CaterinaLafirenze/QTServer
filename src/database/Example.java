@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
+/**
+ * Classe che modella una transazione letta dalla base di dati.
+ */
 public class Example implements Comparable<Example>{
 
 	private List<Object> example=new ArrayList<Object>();
@@ -13,7 +15,11 @@ public class Example implements Comparable<Example>{
 		example.add(o);
 	}
 
-	
+    /**
+     * Restituisce l'esempio della lista che si trova in posizione i.
+     * @param i indice.
+     * @return esempio in posizione i.
+     */
 	public Object get(int i){
 		return example.get(i);
 	}

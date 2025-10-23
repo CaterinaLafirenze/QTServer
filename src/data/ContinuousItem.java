@@ -4,7 +4,7 @@ import java.lang.Math;
 public class ContinuousItem extends Item{
 
     /**
-     *
+     * Costruttore che estende la classe Item e modella la coppia attributo continuo e valore numerico.
      * @param attribute
      * @param value
      */
@@ -27,14 +27,5 @@ public class ContinuousItem extends Item{
 
     }
 
-    /*
-    double distance (Object a){
-        Item item = (Item) a;
-        if (this.getValue().equals(item.getValue())){
-            return 0;
-        }else{
-            return 1;
-        }
-    }*/
 
 }

@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Classe che realizza l'accesso alla base dei dati.
+ */
 public class DbAccess {
 
     private String DRIVER_CLASS_NAME = "com.mysql.cj.jdbc.Driver";
@@ -50,10 +53,17 @@ public class DbAccess {
 
     }
 
+    /**
+     * Metodo che restituisce la connessione.
+     * @return connessione.
+     */
     public Connection getConnection() { return conn;}
 
+    /**
+     * Metodo che chiude la connessione.
+     * @throws SQLException
+     */
     public void closeConnection() throws SQLException {
-
         System.out.println("CHIUSO!!!!");
         conn.close();
     }

@@ -1,7 +1,5 @@
 package data;
 
-import database.QUERY_TYPE;
-
 /**
  * Classe che estende la classe Attribute e modella un attributo continuo.
  */
@@ -53,19 +51,14 @@ public class ContinuousAttribute extends Attribute{
     /**
      * Calcola e restituisce il valore scalato del parametro passato in input.
      * @param v
-     * @return
+     * @return il valore scalato.
      */
     public double getScaledValue(double v) {
-        double range = getMax() - getMin();
-
-        // Gestione del caso range zero (robustezza)
         if (v == min) {
             return 0.0;
         } else {
-            return (v - min) / range;
+            return (v - min) / (getMax() - getMin());
         }
-
-        // Calcolo Min-Max: produce un valore < 0 per v=0.0 o v=0.1
 
     }
 

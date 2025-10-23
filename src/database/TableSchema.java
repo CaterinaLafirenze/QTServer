@@ -10,8 +10,9 @@ import java.util.Iterator;
 import java.util.List;
 
 
-
-
+/**
+ * Classe che modella lo schema di una tabella nel database relazionale.
+ */
 public class TableSchema {
 	DbAccess db;
 	public class Column{
@@ -32,7 +33,13 @@ public class TableSchema {
 		}
 	}
 	public List<Column> tableSchema=new ArrayList<Column>();
-	
+
+    /**
+     * Costruttore che modella lo schema di una tabella nel database.
+     * @param db, database.
+     * @param tableName, nome della tabella.
+     * @throws SQLException
+     */
 	public TableSchema(DbAccess db, String tableName) throws SQLException{
 		this.db=db;
 		HashMap<String,String> mapSQL_JAVATypes=new HashMap<String, String>();

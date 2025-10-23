@@ -26,7 +26,10 @@ public class ClusterSet implements Iterable<Cluster>, Serializable {
         return C[i];
     }*/
 
-    //ricontrollare
+    /**
+     * Restituisce una stringa fatta da ciascun centroide dell'insieme dei cluster.
+     * @return str.
+     */
     public String toString(){
         String str = "";
         for(Cluster c : C) {
@@ -48,16 +51,6 @@ public class ClusterSet implements Iterable<Cluster>, Serializable {
         return str;
     }
 
-    /*
-    public String toString(Data data){
-        String str = "";
-        for(int i=0; i<C.size(); i++){
-            if(C[i]!=null){
-                str+=i+": "+C[i].toString(data)+"\n";
-            }
-        }
-        return str;
-    }*/
 
 
 

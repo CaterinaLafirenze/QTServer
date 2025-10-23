@@ -16,13 +16,18 @@ import java.util.TreeSet;
 
 import database.TableSchema.Column;
 
-
+/**
+ * Classe che modella lo insieme di transazione collezionate in una tabella. La singola transazione è modellata dalla
+ * classe Example.
+ */
 public class TableData {
 
 	DbAccess db;
-	
 
-	
+    /**
+     * Costruttore della classe TableData. Inizializza il database.
+     * @param db, oggetto database.
+     */
 	public TableData(DbAccess db) {
 		this.db=db;
 	}
@@ -87,7 +92,6 @@ public class TableData {
      * da nome column assume nella tabella identificata dal nome table.
      * @throws SQLException
      */
-    //controllare cosa inserire nelle genericas
 	public  Set<Object>getDistinctColumnValues(String table,Column column) throws SQLException{
 		Set<Object> valueSet = new TreeSet<Object>();
 		Statement statement;
@@ -130,7 +134,6 @@ public class TableData {
      * @throws SQLException
      * @throws NoValueException
      */
-    //aggregate è di tipo query_type dove query_type è la classe enumerativa fornita dal docente
 	public  Object getAggregateColumnValue(String table,Column column,QUERY_TYPE aggregate) throws SQLException,NoValueException{
 		Statement statement;
 		TableSchema tSchema=new TableSchema(db,table);

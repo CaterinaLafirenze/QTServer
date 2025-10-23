@@ -9,9 +9,7 @@ import java.io.IOException;
 /*import java.util.Arrays;
 import java.util.LinkedList;*/
 
-/**
- * Classe concreta che modella l'insieme di transazioni
- */
+
 public class Data {
 
     private List<Example> data;
@@ -21,7 +19,9 @@ public class Data {
 
 
     /**
-     * Metodo che inizializza la matrice data[][] con trasnsazioni di esempio
+     * Costruttore che si occupa di caricare i dati di addestramento da una tabella della base di dati.
+     * @param table, utilizza il nome della tabella.
+     * @throws EmptyDatasetException
      */
     public Data(String table) throws EmptyDatasetException {
 
@@ -31,6 +31,7 @@ public class Data {
         attributeSet = new LinkedList<>();
 
         try {
+            //Crea il database e accede ai dati inizializzando la connessione
             DbAccess db = new DbAccess();
             db.initConnection();
             TableData td = new TableData(db);
@@ -212,7 +213,11 @@ public class Data {
         return attributeSet.size();
     }
 
-
+    /**
+     * Prende l'indice corrispondente allo attributo e restituisce il valore di data ad esso associato.
+     * @param attributeIndex, indice dello attributo.
+     * @return il valore di data in posizione attributeIndex.
+     */
     public Object getAttributeValue(int attributeIndex) {
         return data.get(attributeIndex);
     }
