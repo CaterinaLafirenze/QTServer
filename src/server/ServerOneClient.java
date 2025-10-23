@@ -15,6 +15,11 @@ public class ServerOneClient extends Thread {
     private ObjectOutputStream out;
     private QTMiner kmeans;
 
+    /**
+     * Costruttore della classe ServerOneClient. Inizializza gli attributi socket, in e out. Avvia il thread.
+     * @param s, oggetto di Socket.
+     * @throws IOException
+     */
     ServerOneClient(Socket s) throws IOException {
         this.socket = s;
         out =new ObjectOutputStream(socket.getOutputStream());
@@ -22,13 +27,15 @@ public class ServerOneClient extends Thread {
         start();
     }
 
+    /**
+     * Riscrive il metodo run della superclasse Thread al fine di gestire le richieste del client.
+     */
     public void run(){
 
         try {
             Data data= null;
             while(true){
-
-                //Data data = null;
+                //legge dal client la scelta effetuata dall'utente nel menu
                 Object o = in.readObject();
                 System.out.println("Echoing: " + o);
 
@@ -87,6 +94,7 @@ public class ServerOneClient extends Thread {
             System.err.println("IO Exception");
         } finally {
             try {
+                //chiude lo stream di dati
                 socket.close();
             } catch(IOException e) {
                 System.err.println("Socket not closed");

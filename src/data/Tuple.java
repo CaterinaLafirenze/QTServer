@@ -10,6 +10,10 @@ public class Tuple implements Serializable {
 
     private Item[] tuple;
 
+    /**
+     * Costruttore della classe Tuple, inizializza una tupla e le assegna la grandezza.
+     * @param size, dimensione della tupla.
+     */
     Tuple(int size) {
         tuple = new Item[size];
     }

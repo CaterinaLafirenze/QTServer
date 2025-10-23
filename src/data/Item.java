@@ -10,6 +10,11 @@ abstract class Item implements Serializable {
     private Attribute attribute;
     private Object value;
 
+    /**
+     * Costruttore della classe astratta Item, che inizializza lo attributo e il valore.
+     * @param attribute, attributo.
+     * @param value, valore.
+     */
     Item(Attribute attribute, Object value) {
         this.attribute = attribute;
         this.value = value;

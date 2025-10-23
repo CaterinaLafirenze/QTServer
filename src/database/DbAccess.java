@@ -18,10 +18,12 @@ public class DbAccess {
     private final String PASSWORD = "map";
     private Connection conn;
 
-//controllare
+    /**
+     * Inizializza la connessione con il database e stampa la stringa di connessione.
+     * @throws DatabaseConnectionException
+     */
     public void initConnection() throws DatabaseConnectionException{
-        //this.conn = DriverManager.getConnection(DRIVER_CLASS_NAME);
-        try {
+                try {
             Class.forName(DRIVER_CLASS_NAME).newInstance();
         } catch(ClassNotFoundException e) {
             System.out.println("[!] Driver not found: " + e.getMessage());

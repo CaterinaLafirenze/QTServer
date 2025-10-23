@@ -11,6 +11,10 @@ public class Example implements Comparable<Example>{
 
 	private List<Object> example=new ArrayList<Object>();
 
+    /**
+     * Aggiunge un elemento agli esempi.
+     * @param o, oggetto aggiunto
+     */
 	public void add(Object o){
 		example.add(o);
 	}
@@ -23,6 +27,12 @@ public class Example implements Comparable<Example>{
 	public Object get(int i){
 		return example.get(i);
 	}
+
+    /**
+     * Compara gli elementi della lista di esempi.
+     * @param ex, lista di esempi.
+     * @return se gli elementi non sono uguali restituisce 1, altrimenti 0
+     */
 	public int compareTo(Example ex) {
 		
 		int i=0;
@@ -33,6 +43,12 @@ public class Example implements Comparable<Example>{
 		}
 		return 0;
 	}
+
+    /**
+     * Crea la stringa di esempi.
+     * @return la stringa.
+     */
+
 	public String toString(){
 		String str="";
 		for(Object o:example)

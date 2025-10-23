@@ -1,7 +1,14 @@
 package data;
 import database.*;
+
+/**
+ * Classe che estende la classe Item e rappresenta la coppia attributo valore discrto.
+ */
 public class DiscreteItem extends Item{
 
+    /**
+     * Costruttore della classe DiscreteItem che inizializza il valore dello attributo e del valore discreto.
+     */
     DiscreteItem(DiscreteAttribute attribute, String value){
         super(attribute, value);
 

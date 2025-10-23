@@ -15,13 +15,22 @@ public class QTMiner implements Serializable {
     private ClusterSet C;
     private double radius;
 
+    /**
+     * Costruttore della classe QTMiner che crea l'oggetto riferito dal ClusterSet e inizializza il raggio
+     * @param radius, raggio del ClusterSet.
+     */
     public QTMiner(double radius){
         this.C =new ClusterSet();
         this.radius = radius;
     }
-    /*
-    * Scritto come carica, ricontrollare
-    * */
+
+    /**
+     * Apre il file identificato da filename, legge lo oggetto ivi memorizzato e lo assegna al ClusterSet.
+     * @param fileName, nome del file da caricare.
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public QTMiner (String fileName) throws FileNotFoundException, IOException, ClassNotFoundException {
         try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))){
             this.C = (ClusterSet) ois.readObject();
@@ -45,8 +54,10 @@ public class QTMiner implements Serializable {
     }
 
 
-
-
+    /**
+     * Prende il ClusterSet.
+     * @return il ClusterSet.
+     */
     public ClusterSet getC() {
         return C;
     }
@@ -87,6 +98,12 @@ public class QTMiner implements Serializable {
         return numclusters;
     }
 
+    /**
+     * Costruisce un cluster per ciascuna tupla di data non ancora clusterizzata in un cluster del ClusterSet.
+     * @param data, insieme di tuple da raggruppare in cluster.
+     * @param isClustered, informazione booleana sullo stato di clusterizzazione della tupla.
+     * @return il cluster caditato più popoloso
+     */
     public Cluster buildCandidateCluster(Data data, boolean[] isClustered){
 
         Cluster candidate=new Cluster();
@@ -110,24 +127,6 @@ public class QTMiner implements Serializable {
             }
         }
         return candidate;
-        /*
-        double max = 0;
-        int pos = 0;
-        for(int i=0; i<countClusterset; i++){
-             if(max < CS.get(i).getSize()) {
-                 max = CS.get(i).getSize();
-                 pos = i;
-             }
-        } return CS.get(pos);
-
-         */
-        /*
-        Cluster max = new Cluster();
-        for(Cluster c: CS){
-             if(max.compareTo(c)>0)
-                 max = c;
-        } return max;*/
-
     }
 
 }

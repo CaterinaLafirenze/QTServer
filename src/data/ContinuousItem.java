@@ -1,6 +1,10 @@
 package data;
 import database.*;
 import java.lang.Math;
+
+/**
+ * Classe concreta che estende la classe Item e modella una coppia Attrinuto continuo e valore numerico.
+ */
 public class ContinuousItem extends Item{
 
     /**
@@ -13,7 +17,11 @@ public class ContinuousItem extends Item{
         super(attribute, value);
     }
 
-
+    /**
+     * Calcola la distanza delle tuple.
+     * @param a
+     * @return il valore assoluto della distanza.
+     */
 
     double distance (Object  a){
 
