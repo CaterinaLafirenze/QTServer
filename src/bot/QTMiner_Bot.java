@@ -7,7 +7,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
-import org.apache.httpcomponents.client5;
+import org.apache.http.client.HttpClient;
+import org.apache.http.HttpEntity;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -300,7 +302,7 @@ public class QTMiner_Bot extends TelegramLongPollingBot{
     }
     public static void main(String[] args) {
         if (args.length == 0 || args.length > 3) {
-            System.err.println("Utilizzo: java Main <BOT_TOKEN> <IP_ADDRESS> <SERVER_PORT>");
+            System.err.println("Utilizzo: java Main <TOKEN> <IP_ADDRESS> <SERVER_PORT>");
             System.exit(1);
         }
 
