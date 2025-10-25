@@ -38,8 +38,7 @@ public class QTMiner_Bot extends TelegramLongPollingBot{
     private final Map<String, ClientSession> userSession = new HashMap<>();
 
     public QTMiner_Bot(String botToken, String serverIp, int serverPort) {
-        botToken = "8342868023:AAF5vhElQWKmUalxEb8w4a_dw9TOB34QZ2g";
-        this.botToken = botToken;
+        this.botToken = System.getenv("TOKEN");
         serverIp =  "127.0.0.1";
         this.serverIp = serverIp;
         serverPort = 8080;
