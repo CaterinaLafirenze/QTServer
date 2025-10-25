@@ -14,7 +14,7 @@ public class MultiServer extends ServerSocket {
      * @param port, la porta sulla quale avviene la connessione con il server.
      * @throws IOException
      */
-    MultiServer(int port)throws IOException{
+    public MultiServer(int port)throws IOException{
         this.PORT = port;
         run();
     }

@@ -17,6 +17,7 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.nio.file.Paths;
+import java.rmi.ServerException;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -102,7 +103,7 @@ public class QTMiner_Bot extends TelegramLongPollingBot{
             this.sendMessage(chatId, "Errore durante la lettura del file.");
         }
     }
-//da fare dopo
+    //da fare dopo
     private void handleMessage(String chatId, String receivedMessage) throws IOException, ClassNotFoundException{
         ClientSession session = this.getSession(chatId);
         String infoFilePath = System.getProperty("user.dir") + "/info.txt";
@@ -111,42 +112,24 @@ public class QTMiner_Bot extends TelegramLongPollingBot{
         }
         switch (session.state){
             case "START":
-                if(receivedMessage.equals("/start")){
-                    this.sendFileContent(chatId, infoFilePath);
-                    session.out.writeObject(0);
-                    List <String> tableName = getTableNames();
-                    this.sendMessage(chatId, "Tabella del database: playtennis");
-                    this.sendMessage(chatId, "Inserire il nome della tabella da caricare.");
-                    session.state = "LOAD_DATA";
-                }
+
                 break;
             case "MENU":
-                if(receivedMessage.equals("1")){
-                    session.out.writeObject(3);
-                    this.sendMessage(chatId, "Inserisci il nome del file da caricare: ");
-                    session.state = "LOAD_FILE";
-                } else if(receivedMessage.equals("2")){
-                    session.out.writeObject(0);
-                    this.sendMessage(chatId, "Inserisci il raggio (da 1 a 4): ");
-                    session.state = "ENTER_RADIUS";
-                } else{
-                this.sendMessage(chatId, "Comando non valido. \n1. Carica Cluster dal file\n2. Carica dati dal database.");
-                session.state = "MENU";
-                }
+
 
                 break;
             case "SALVA_FILE":
                 session.out.writeObject(2);
-                this.handleSaveFile(chatId, infoFilePath);
+                this.handleSaveFile(chatId);
                 break;
             case "LOAD_FILE":
-                this.handleLoadClusterFromFile(chatId, receivedMessage);
+                this.handleLoadClusterFromFile(chatId);
                 break;
             case "LOAD_DATA":
-                this.handleLoadData(chatId, receivedMessage);
+                this.handleLoadData(chatId);
                 break;
-            case "ENTER_RADIUS":
-                this.handleRadius(chatId, receivedMessage);
+            case "NEW_EXECUTION":
+                this.handleExecution(chatId, receivedMessage);
                 break;
             default:
                 this.sendMessage(chatId, "Comando non valido");
@@ -163,30 +146,6 @@ public class QTMiner_Bot extends TelegramLongPollingBot{
         }
     }
 
-    private void handleRadius(String chatId, String depthStr) throws IOException, ClassNotFoundException {
-        int radius;
-        try{
-            radius = Integer.parseInt(depthStr);
-        }catch(NumberFormatException e){
-            this.sendMessage(chatId, "Raggio inserito non valido. \n Inserisci un valore compreso tra 1 e 4");
-            return;
-        }
-        ClientSession session = this.getSession(chatId);
-        session.out.writeObject(radius);
-        String answer = (String) session.in.readObject();
-        if (answer.equals("OK")){
-            this.sendMessage(chatId, (String) session.in.readObject());
-            this.sendMessage(chatId, "Inserisci il nome del file.");
-            session.state = "SAVE_FILE";
-        }else{
-            this.sendMessage(chatId, answer);
-            session.out.writeObject(1);
-            this.sendMessage(chatId, "Inserisci il raggio (valore compreso tra 1 e 4): ");
-            session.state = "ENTER_RADIUS";
-        }
-
-
-    }
 
 
     private ClientSession getSession (String chatId) throws IOException{
@@ -213,71 +172,70 @@ public class QTMiner_Bot extends TelegramLongPollingBot{
 
     }
 
-    private void handleLoadClusterFromFile(String chatId, String fileName) throws IOException, ClassNotFoundException{
+    private void handleLoadClusterFromFile(String chatId) throws IOException, ClassNotFoundException{
         ClientSession session = this.getSession(chatId);
-        session.out.writeObject(fileName);
-        String risposta = (String)  session.in.readObject();
-        if(risposta.equals("OK")){
+        session.out.writeObject(3);
+        this.sendMessage(chatId, "Inserire il nome della funzione");
+        String filename = (String) session.in.readObject();
+        session.out.writeObject(filename);
+        String result = (String) session.in.readObject();
+        if(result .equals("OK")) {
             this.sendMessage(chatId, (String) session.in.readObject());
-            this.sendMessage(chatId, "Caricamento completato, digita /start per iniziare una nuova sessione.");
-            this.closeSession(chatId);
-            session.state = "START";
-        }else{
-            this.sendMessage(chatId, risposta);
-            this.sendMessage(chatId, "Inserisci il nome del file da caricare: ");
-            session.out.writeObject(2);
+            session.state = "NEW_EXECUTION";
+        }
+        throw new ServerException(result);
+
+    }
+
+    private void handleLoadData(String chatId) throws IOException, ClassNotFoundException {
+        ClientSession session = this.getSession(chatId);
+        session.out.writeObject(1);
+        double r = 1.0;
+        do{
+            this.sendMessage(chatId,"Radius");
+            r=(Double)session.in.readObject();
+        }while(r<=0);
+        session.out.writeObject(r);
+        String result = (String)session.in.readObject();
+        if(result.equals("OK")){
+            this.sendMessage(chatId,"Number of Clusters:"+  session.in.readObject());
+            this.sendMessage(chatId, (String) session.in.readObject());
             session.state = "LOAD_FILE";
         }
+
     }
 
-    private void handleLoadData(String chatId, String tableName) throws IOException, ClassNotFoundException{
+    private void handleSaveFile(String chatId) throws IOException, ClassNotFoundException{
         ClientSession session = this.getSession(chatId);
+        session.out.writeObject(2);
+        this.sendMessage(chatId, "Nome del file su cui salvare: ");
+        String filename = (String) session.in.readObject();
+        session.out.writeObject(filename);
+        this.sendMessage(chatId, "\n Salvataggio del cluster in " + filename + ".dmp\nSalvataggio terminato!\n");
+        String result = (String) session.in.readObject();
+        if(!result.equals("OK"))
+            throw new ServerException(result);
+        session.state= "NEW_EXECUTION";
+    }
+
+    private void handleTable(String chatId, String tableName) throws IOException, ClassNotFoundException {
+        ClientSession session = this.getSession(chatId);
+        session.out.writeObject(0);
+        this.sendMessage(chatId, "Table name: ");
+        tableName = (String) session.in.readObject();
         session.out.writeObject(tableName);
-        String answer = (String) session.in.readObject();
-        if (answer.equals("OK")){
-            this.sendMessage(chatId, "Indicare l'opzione: \n1. Carica Cluster da File\n2. Apprendi Cluster da Database");
-            session.state = "MENU";
-        }else{
-            this.sendMessage(chatId, answer);
-            this.sendMessage(chatId, "Inserire il nome della tabella da caricare.");
-            session.out.writeObject(0);
-            session.state = "LOAD_DATA";
+        String result = (String) session.in.readObject();
+        session.state = "LOAD_DATA";
+        if(!result.equals("OK")){
+            throw new ServerException(result);
         }
+        
     }
-
-    private void handleSaveFile(String chatId, String fileName) throws IOException, ClassNotFoundException{
-        ClientSession session = this.getSession(chatId);
-        session.out.writeObject(fileName);
-        String answer = (String) session.in.readObject();
-        if(answer.equals("OK")){
-            this.sendMessage(chatId, (String) session.in.readObject());
-            this.sendMessage(chatId, "Caricamento completato, digita /start per una nuova sessione.");
-            this.closeSession(chatId);
-            session.state = "START";
-        }else{
-            this.sendMessage(chatId, answer);
-            this.sendMessage(chatId, "Inserire il nome della tabella da caricare.");
-            session.state = "SAVE_FILE";
-        }
+    private void handleExecution (String chatId, ){
+        
     }
-
-    private List<String> getTableNames(){
-        List<String> tableNames = new ArrayList<>();
-        DbAccess dbAccess = new DbAccess();
-        try{
-            dbAccess.initConnection();
-            DatabaseMetaData meta = dbAccess.getConnection().getMetaData();
-            ResultSet rs = meta.getTables(null, null, "%", new String[]{"TABLE"});
-            while(rs.next()){
-                tableNames.add(rs.getString("TABLE_NAME"));
-            }
-            rs.close();
-            dbAccess.closeConnection();
-        }catch(DatabaseConnectionException | SQLException e){
-            e.printStackTrace();
-        }
-        return tableNames;
-    }
+    
+    
 
 
     static class ClientSession {
@@ -306,7 +264,7 @@ public class QTMiner_Bot extends TelegramLongPollingBot{
             System.exit(1);
         }
 
-        String botToken = args[0];
+        /*String botToken = args[0];
         // Controllo sul bot token (lunghezza minima e non null)
         if (botToken == null || botToken.isEmpty()) {
             System.err.println("Bot token non valido.");
@@ -330,18 +288,20 @@ public class QTMiner_Bot extends TelegramLongPollingBot{
             System.err.println("Numero di porta non valido: " + args[2]);
             System.exit(1);
             return;
-        }
-
+        }*/
+        String botToken = args[0];
+        String address = args[1];
+        int port=Integer.parseInt(args[2]);
         System.out.println("Server avviato sulla porta " + port);
         new QTMiner_Bot(botToken, address, port);
     }
 
-    private static boolean isValidIPAddress(String ip) {
+    /*private static boolean isValidIPAddress(String ip) {
         String ipPattern =
                 "^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-5][0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-5][0-5])$";
         Pattern pattern = Pattern.compile(ipPattern);
         Matcher matcher = pattern.matcher(ip);
         return matcher.matches();
-    }
+    }*/
 
 }
