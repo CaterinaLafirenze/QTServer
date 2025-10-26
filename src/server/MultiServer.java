@@ -1,5 +1,11 @@
 package server;
 
+import bot.QTMiner_Bot;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.generics.TelegramBot;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+
 import java.io.IOException;
 import java.net.*;
 
@@ -8,7 +14,8 @@ import java.net.*;
  */
 public class MultiServer extends ServerSocket {
     private int PORT = 8080;
-
+    private static MultiServer singleton = null;
+    private static TelegramBotsApi bot;
     /**
      * Costruttore della classe MultiServer. Inizializza la porta ed invoca il metodo run().
      * @param port, la porta sulla quale avviene la connessione con il server.
@@ -16,7 +23,19 @@ public class MultiServer extends ServerSocket {
      */
     public MultiServer(int port)throws IOException{
         this.PORT = port;
-        run();
+        this.run();
+    }
+
+    public static void instanceMultiServer(String token, String address, int port) throws IOException {
+        if (singleton == null) {
+            try {
+                bot = new TelegramBotsApi(DefaultBotSession.class);
+                bot.registerBot(new QTMiner_Bot(token,address,port));
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+            singleton = new MultiServer(port);
+        }
     }
 
     /**
