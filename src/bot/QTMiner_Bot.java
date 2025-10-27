@@ -66,7 +66,7 @@ public class QTMiner_Bot extends TelegramLongPollingBot{
 
             try{
                 switch(receivedMessage){
-                    case "/end": // va in IOException, in toeria è normale ma meglio ricordarcelo.
+                    case "/end":
                         if(this.userSession.containsKey(chatId)){
                             this.closeSession(chatId);
                             this.sendMessage(chatId, "Connessione terminata. Digita /start per iniziare un nuova sessione.");
@@ -107,16 +107,17 @@ public class QTMiner_Bot extends TelegramLongPollingBot{
                 session.state="MENU";
                 break;
             case "MENU":
-                    if(receivedMessage.equals("1")){
-                        session.state= "LOAD_FILE";
-                        this.sendMessage(chatId, "Inserire il nome del file:");
-                    }else if(receivedMessage.equals("2")){
-                        session.state="LOAD_TABLE";
-                        this.sendMessage(chatId,"Table name: ");
-                    }else{
-                        this.sendMessage(chatId, "Comando non valido.");
-                        session.state="MENU";
-                    }
+                if(receivedMessage.equals("1")){
+                    session.state= "LOAD_FILE";
+                    this.sendMessage(chatId, "Inserire il nome del file:");
+                }else if(receivedMessage.equals("2")){
+                    session.state="LOAD_TABLE";
+                    this.sendMessage(chatId,"Table name: ");
+                }else{
+                    this.sendMessage(chatId, "Comando non valido.");
+                    session.state="MENU";
+                    this.sendMessage(chatId, "(1) Carica il cluster dal file\n(2) Carica i dati dal database\n(1/2): ");
+                }
                     break;
             case "SAVE_FILE":
                 this.handleSaveFile(chatId, receivedMessage);
@@ -136,8 +137,6 @@ public class QTMiner_Bot extends TelegramLongPollingBot{
             case "LOAD_OPERATION":
                 this.handleOperation(chatId, receivedMessage);
                 break;
-            default:
-                this.sendMessage(chatId, "Comando non valido");
         }
     }
 
@@ -179,42 +178,62 @@ public class QTMiner_Bot extends TelegramLongPollingBot{
 
     private void handleTable(String chatId, String receivedTableName) throws IOException, ClassNotFoundException {
         ClientSession session = this.getSession(chatId);
-        session.out.writeObject(0);
-        session.out.writeObject(receivedTableName);
-        String result = (String) session.in.readObject();
-        if(!result.equals("OK")){
-            throw new ServerException(result);
+        if(receivedTableName.equals("playtennis")){
+            session.out.writeObject(0);
+            session.out.writeObject(receivedTableName);
+            String result = (String) session.in.readObject();
+            if(!result.equals("OK")){
+                throw new ServerException(result);
+            }
+            session.state = "LOAD_DATA";
+            this.sendMessage(chatId,"Raggio:");
+        }else{
+            session.state = "LOAD_TABLE";
+            this.sendMessage(chatId, "Tabella non presente nel database. Inserire tabella esistente:");
         }
-        session.state = "LOAD_DATA";
-        this.sendMessage(chatId,"Raggio:");
-
     }
 
     private void handleLoadData(String chatId, String receivedRadius) throws IOException, ClassNotFoundException {
         ClientSession session = this.getSession(chatId);
-        session.out.writeObject(1);
-        if(Double.valueOf(receivedRadius) > 0){
-            if(Double.valueOf(receivedRadius) >= 4){
-                session.out.writeObject(Double.valueOf(receivedRadius));
-                String result = (String) session.in.readObject();
-                if(result.equals("OK")){
-                    this.sendMessage(chatId, (String) session.in.readObject());
-                    session.state = "NEW_EXECUTION";
-                    this.sendMessage(chatId, "Vuoi ripetere l'esecuzione?(y/n)");
-                }
-            }else{
-                session.out.writeObject(Double.valueOf(receivedRadius));
-                String result = (String)session.in.readObject();
-                if(result.equals("OK")){
-                    this.sendMessage(chatId,"Number of Clusters:"+  session.in.readObject());
-                    this.sendMessage(chatId, (String) session.in.readObject());
-                    session.state = "SAVE_FILE";
-                    this.sendMessage(chatId, "Nome del file su cui salvare: ");
-                }
-            }
-        }else{
-            session.state="LOAD_DATA";
+
+        double radius;
+        try{
+            radius = Double.valueOf(receivedRadius);
+        } catch (NumberFormatException e) {
+            session.state = "LOAD_DATA";
+            this.sendMessage(chatId, "Valore del raggio non valido. Inserire un raggio >0:");
+            return;
+        }
+
+        if(radius <= 0){
+            session.state= "LOAD_DATA";
             this.sendMessage(chatId,"Valore del raggio non valido, inserire un raggio >0: ");
+            return;
+        }
+        session.out.writeObject(1);
+        session.out.writeObject(radius);
+        String result= (String) session.in.readObject();
+        if(result.equals("OK")){
+            this.sendMessage(chatId, "Number of Clusters:"+  session.in.readObject());
+            String cluster = (String) session.in.readObject();
+            if(!cluster.isEmpty()){
+                this.sendMessage(chatId, cluster);
+            } else{
+                this.sendMessage(chatId, "nessuna descrizione del cluster");
+            }
+
+            if(radius >= 4){
+                session.state = "NEW_EXECUTION";
+                this.sendMessage(chatId,"Vuoi ripetere l'esecuzione?(y/n)");
+            } else{
+                session.state = "SAVE_FILE";
+                this.sendMessage(chatId, "Nome del file su cui salvare: ");
+            }
+        }else {
+            // Gestione errore del server
+            this.sendMessage(chatId, "Errore dal server: " + result);
+            session.state = "MENU";
+            this.sendMessage(chatId, "(1) Carica il cluster dal file\n(2) Carica i dati dal database\n(1/2): ");
         }
     }
 
@@ -230,23 +249,20 @@ public class QTMiner_Bot extends TelegramLongPollingBot{
         this.sendMessage(chatId, "Vuoi ripetere l'esecuzione?(y/n)");
     }
 
-//controllare
+
     private void handleLoadClusterFromFile(String chatId, String receivedMessage) throws IOException, ClassNotFoundException{
         ClientSession session = this.getSession(chatId);
         session.out.writeObject(3);
-        //this.sendMessage(chatId, "Inserire il nome del file");
         session.out.writeObject(receivedMessage);
         String result = (String) session.in.readObject();
-        if(result .equals("OK")) {
+        if(result.equals("OK")) {
             this.sendMessage(chatId, (String) session.in.readObject());
             session.state = "LOAD_OPERATION";
             this.sendMessage(chatId,"Vuoi scegliere una nuova operazione dal menu?");
+        }else {
+            throw new ServerException(result);
         }
-        throw new ServerException(result);
-
     }
-
-
 
 
 
@@ -257,8 +273,10 @@ public class QTMiner_Bot extends TelegramLongPollingBot{
             this.sendMessage(chatId,"Raggio:");
         }else if (receivedChoice.equals("n")){
             session.state = "LOAD_OPERATION";
-            this.sendMessage(chatId,"Vuoi scegliere una nuova operazione dal menu?");
+            this.sendMessage(chatId,"Vuoi scegliere una nuova operazione dal menu?(y/n)");
 
+        }else{
+            this.sendMessage(chatId, "Comando non valido. Inserire y/n:");
         }
 
     }
@@ -272,7 +290,7 @@ public class QTMiner_Bot extends TelegramLongPollingBot{
             this.sendMessage(chatId,"Connessione chiusa.");
             this.closeSession(chatId);
         }else{
-            this.sendMessage(chatId, "Comando non valido.");
+            this.sendMessage(chatId, "Comando non valido. Inserire y/n:");
         }
     }
 
