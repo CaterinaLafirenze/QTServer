@@ -42,24 +42,13 @@ class Cluster implements Iterable<Integer>, Comparable <Cluster>, Serializable {
 
     /**
      * Verifica se la tupla che viene aggiunta modifica il cluster
-     * @param id, identificativo della tupla.
+     * @param id identificativo della tupla.
      * @return se la tupla modifica il cluster restituisce true, altrimenti false.
      */
     boolean addData(int id){
 		return clusteredData.add(id);
 		
 	}
-	
-	//verifica se una transazione � clusterizzata nell'array corrente
-	/*boolean contain(int id){
-		return clusteredData.(id);
-	}
-	*/
-
-	/*void removeTuple(int id){
-		clusteredData.delete(id);
-		
-	}*/
 
     /**
      * Prende la dimensione di clusteredData.
@@ -68,11 +57,7 @@ class Cluster implements Iterable<Integer>, Comparable <Cluster>, Serializable {
 	int  getSize(){
 		return clusteredData.size();
 	}
-	
-	/*
-    Object[] iterator(){
-		return clusteredData.toArray();
-	}*/
+
 
     /**
      * iteratore di clusteredData.
@@ -115,7 +100,7 @@ class Cluster implements Iterable<Integer>, Comparable <Cluster>, Serializable {
 
     /**
      * Crea la stringa con i centroidi e i rispettivi esempi, distanze e alla fine la distanza media.
-     * @param data, oggetto di Data.
+     * @param data oggetto di Data.
      * @return la stringa.
      */
 	public String toString(Data data){

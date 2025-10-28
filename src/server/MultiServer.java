@@ -18,7 +18,7 @@ public class MultiServer extends ServerSocket {
     private static TelegramBotsApi bot;
     /**
      * Costruttore della classe MultiServer. Inizializza la porta ed invoca il metodo run().
-     * @param port, la porta sulla quale avviene la connessione con il server.
+     * @param port la porta sulla quale avviene la connessione con il server.
      * @throws IOException
      */
     public MultiServer(int port)throws IOException{
@@ -64,7 +64,7 @@ public class MultiServer extends ServerSocket {
 
     /**
      * Istanzia un oggetto di tipo MultiServer.
-     * @param args
+     * @param args port.
      */
     public static void main(String[] args) {
         

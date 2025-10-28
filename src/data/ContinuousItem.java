@@ -9,8 +9,8 @@ public class ContinuousItem extends Item{
 
     /**
      * Costruttore che estende la classe Item e modella la coppia attributo continuo e valore numerico.
-     * @param attribute
-     * @param value
+     * @param attribute attributo continuo.
+     * @param value valore associato allo attributo.
      */
 
     ContinuousItem(Attribute attribute, Double value){

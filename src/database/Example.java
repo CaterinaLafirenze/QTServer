@@ -13,7 +13,7 @@ public class Example implements Comparable<Example>{
 
     /**
      * Aggiunge un elemento agli esempi.
-     * @param o, oggetto aggiunto
+     * @param o oggetto aggiunto
      */
 	public void add(Object o){
 		example.add(o);
@@ -30,7 +30,7 @@ public class Example implements Comparable<Example>{
 
     /**
      * Compara gli elementi della lista di esempi.
-     * @param ex, lista di esempi.
+     * @param ex lista di esempi.
      * @return se gli elementi non sono uguali restituisce 1, altrimenti 0
      */
 	public int compareTo(Example ex) {

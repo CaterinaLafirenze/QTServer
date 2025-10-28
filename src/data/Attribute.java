@@ -12,8 +12,8 @@ abstract class Attribute implements Serializable {
 
     /**
      * Costruttore che inizializza i valori dei membri name e index.
-     * @param name
-     * @param index
+     * @param name nome dello attributo
+     * @param index indice dello attributo
      */
     Attribute(String name, int index){
         this.name = name;
@@ -22,7 +22,7 @@ abstract class Attribute implements Serializable {
 
     /**
      * Metodo che restituisce name.
-     * @return
+     * @return il nome.
      */
     String getName(){
         return name;
@@ -30,7 +30,7 @@ abstract class Attribute implements Serializable {
 
     /**
      * Metodo che restituisce index.
-     * @return
+     * @return indice.
      */
     int getIndex(){
         return index;
@@ -38,7 +38,7 @@ abstract class Attribute implements Serializable {
 
     /**
      * Metodo che restituisce la stringa name rappresentante lo stato dell'oggetto.
-      * @return
+      * @return nome.
      */
     public String toString(){
         return name;

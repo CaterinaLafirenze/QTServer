@@ -17,7 +17,7 @@ public class ServerOneClient extends Thread {
 
     /**
      * Costruttore della classe ServerOneClient. Inizializza gli attributi socket, in e out. Avvia il thread.
-     * @param s, oggetto di Socket.
+     * @param s oggetto di Socket.
      * @throws IOException
      */
     ServerOneClient(Socket s) throws IOException {

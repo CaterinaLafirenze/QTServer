@@ -17,7 +17,7 @@ public class QTMiner implements Serializable {
 
     /**
      * Costruttore della classe QTMiner che crea l'oggetto riferito dal ClusterSet e inizializza il raggio
-     * @param radius, raggio del ClusterSet.
+     * @param radius raggio del ClusterSet.
      */
     public QTMiner(double radius){
         this.C =new ClusterSet();
@@ -26,7 +26,7 @@ public class QTMiner implements Serializable {
 
     /**
      * Apre il file identificato da filename, legge lo oggetto ivi memorizzato e lo assegna al ClusterSet.
-     * @param fileName, nome del file da caricare.
+     * @param fileName nome del file da caricare.
      * @throws FileNotFoundException
      * @throws IOException
      * @throws ClassNotFoundException
@@ -41,7 +41,7 @@ public class QTMiner implements Serializable {
 
     /**
      * Apre il file identificato da fileName e salva lo oggetto riferito dal ClusterSet in tale file.
-     * @param fileName
+     * @param fileName nome del file su cui salvare.
      * @throws FileNotFoundException
      * @throws IOException
      */
@@ -68,7 +68,7 @@ public class QTMiner implements Serializable {
      * Salva il candidato cluster più popoloso e rimuove tutti i punti di tale cluster dallo elenco
      * delle tuple ancora da clsuterizzare.
      * Ritorna al primo passo finche ci sono ancota tuple da assegnare ad un cluster.
-     * @param data
+     * @param data insieme di tuple da raggruppare in cluster.
      * @return Numero di cluster scoperti.
      * @throws ClusteringRadiusException
      */
@@ -100,8 +100,8 @@ public class QTMiner implements Serializable {
 
     /**
      * Costruisce un cluster per ciascuna tupla di data non ancora clusterizzata in un cluster del ClusterSet.
-     * @param data, insieme di tuple da raggruppare in cluster.
-     * @param isClustered, informazione booleana sullo stato di clusterizzazione della tupla.
+     * @param data insieme di tuple da raggruppare in cluster.
+     * @param isClustered informazione booleana sullo stato di clusterizzazione della tupla.
      * @return il cluster caditato più popoloso
      */
     public Cluster buildCandidateCluster(Data data, boolean[] isClustered){

@@ -30,7 +30,7 @@ public class ClusterSet implements Iterable<Cluster>, Serializable {
 
     /**
      * Aggiunge un cluster al clusterSet.
-     * @param c, oggetto di Cluster
+     * @param c oggetto di Cluster
      */
     void add (Cluster c){
         C.add(c);
@@ -51,7 +51,7 @@ public class ClusterSet implements Iterable<Cluster>, Serializable {
 
     /**
      * Crea la stringa che descriva lo stato di ciascun cluster nel clusterSet
-     * @param data, oggetto di Data.
+     * @param data oggetto di Data.
      * @return la strnga.
      */
     public String toString(Data data){

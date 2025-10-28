@@ -10,11 +10,14 @@ public class ContinuousAttribute extends Attribute{
     private double max;
     private double min;
 
+
     /**
      * Invoca il costruttore della classe madre e inizializza i membri aggiunti per estensione.
+     * @param name nome dello attributo continuo.
+     * @param index indice dello attributo continuo.
+     * @param min valore minimo dello attributo continuo.
+     * @param max valore massimo dello attributo continuo.
      */
-
-
     ContinuousAttribute(String name, int index, double min, double max){
 
         super(name, index);
@@ -26,19 +29,19 @@ public class ContinuousAttribute extends Attribute{
 
     /**
      * Metodo che restituisce il massimo valore dell'intervallo.
-     * @return
+     * @return il massimo.
      */
     public double getMax(){return max;}
 
     /**
      * Metodo che restituisce il minimo valore dell'intervallo.
-     * @return
+     * @return il minimo.
      */
     public double getMin(){return min;}
 
     /**
      * Calcola e restituisce il valore scalato del parametro passato in input.
-     * @param v
+     * @param v parametro di input.
      * @return il valore scalato.
      */
     public double getScaledValue(double v) {

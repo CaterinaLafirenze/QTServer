@@ -16,13 +16,12 @@ public class Data {
 
     private List<Example> data;
     private int numberOfExamples;
-    //private Attribute attributeSet;
     private List<Attribute> attributeSet;
 
 
     /**
      * Costruttore che si occupa di caricare i dati di addestramento da una tabella della base di dati.
-     * @param table, utilizza il nome della tabella.
+     * @param table utilizza il nome della tabella.
      * @throws EmptyDatasetException
      */
     public Data(String table) throws EmptyDatasetException {
@@ -86,7 +85,7 @@ public class Data {
 
     /**
      * Prende l'indice corrispondente allo attributo e restituisce il valore di data ad esso associato.
-     * @param attributeIndex, indice dello attributo.
+     * @param attributeIndex indice dello attributo.
      * @return il valore di data in posizione attributeIndex.
      */
     public Object getAttributeValue(int attributeIndex) {
@@ -103,7 +102,7 @@ public class Data {
 
     /**
      * Crea e restituisce uno oggetto di Tuple che distingue tra attributo discreto o continuo.
-     * @param index, indice dello attributeSet dal quale prendere i valori.
+     * @param index indice dello attributeSet dal quale prendere i valori.
      * @return la tupla.
      */
     public Tuple getItemSet(int index) {

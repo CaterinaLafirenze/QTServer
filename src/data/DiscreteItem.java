@@ -16,7 +16,7 @@ public class DiscreteItem extends Item{
 
     /**
      * Restituisce la distanza calcolata tra due item.
-     * @param a, oggetto.
+     * @param a
      * @return 0 se i valori sono uguali e 1 se i valori sono diversi.
      */
     double distance (Object a){

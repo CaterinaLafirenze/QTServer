@@ -22,8 +22,8 @@ public class TableSchema {
 
         /**
          * Costruttore dellla classe Column. Inizializza il nome della colonna e il tipo di elementi che contiene.
-         * @param name, nome della colonna.
-         * @param type, tipo degli elementi.
+         * @param name nome della colonna.
+         * @param type tipo degli elementi.
          */
 		public Column(String name,String type){
 			this.name=name;
@@ -58,8 +58,8 @@ public class TableSchema {
 
     /**
      * Costruttore che modella lo schema di una tabella nel database.
-     * @param db, database.
-     * @param tableName, nome della tabella.
+     * @param db database.
+     * @param tableName nome della tabella.
      * @throws SQLException
      */
 	public TableSchema(DbAccess db, String tableName) throws SQLException{
@@ -109,7 +109,7 @@ public class TableSchema {
 
     /**
      * Prende la colonna associata allo indice della tabella.
-     * @param index, indice.
+     * @param index indice.
      * @return la colonna.
      */
     public Column getColumn(int index){

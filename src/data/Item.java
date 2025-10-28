@@ -12,8 +12,8 @@ abstract class Item implements Serializable {
 
     /**
      * Costruttore della classe astratta Item, che inizializza lo attributo e il valore.
-     * @param attribute, attributo.
-     * @param value, valore.
+     * @param attribute attributo.
+     * @param value valore.
      */
     Item(Attribute attribute, Object value) {
         this.attribute = attribute;
@@ -21,8 +21,8 @@ abstract class Item implements Serializable {
     }
 
     /**
-     * Prende l'attributo.
-     * @return l'attributo.
+     * Prende lo attributo.
+     * @return lo attributo.
      */
     Attribute getAttribute() {
         return attribute;
@@ -41,7 +41,7 @@ abstract class Item implements Serializable {
 
     /**
      * Metodo astratto che viene implementato nei casi discreti e continuo.
-     * @param a, oggetto.
+     * @param a
      */
     abstract double distance (Object a);
 

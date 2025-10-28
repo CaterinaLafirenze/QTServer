@@ -26,7 +26,7 @@ public class TableData {
 
     /**
      * Costruttore della classe TableData. Inizializza il database.
-     * @param db, oggetto database.
+     * @param db oggetto database.
      */
 	public TableData(DbAccess db) {
 		this.db=db;
@@ -38,7 +38,7 @@ public class TableData {
      * istanza della classe Example, il cui riferimento va incluso nella lista da restituire.
      * In particolare, per la tupla corrente nel resultset, si estraggono i valori dei singoli campi,
      * e li si aggiungono all'oggetto istanza della classe Example che si sta costruendo.
-     * @param table, nome della tabella del database.
+     * @param table nome della tabella del database.
      * @return Lista di transazioni distinte memorizzate nella tabella.
      * @throws SQLException
      * @throws EmptySetException
@@ -86,8 +86,8 @@ public class TableData {
     /**
      * Formula ed esegue una interrogazione SQL per estrarre i valori distinti ordinati di column e popolare un insieme
      * da restituire.
-     * @param table, nome della tabella.
-     * @param column, nome della colonna nella tabella.
+     * @param table nome della tabella.
+     * @param column nome della colonna nella tabella.
      * @return Insieme di valori distinti ordinati in modalità ascendente che l'attributo identificato
      * da nome column assume nella tabella identificata dal nome table.
      * @throws SQLException
@@ -127,9 +127,9 @@ public class TableData {
     /**
      * Formula ed esegue una interrogazione SQL per estrarre il valore aggregato (valore minimo o valore massimo)
      * cercato nella colonna di nome column della tabella di nome table.
-     * @param table, nome di tabella.
-     * @param column, nome di colonna.
-     * @param aggregate, operatore SQL di aggregazione (min, max).
+     * @param table nome di tabella.
+     * @param column nome di colonna.
+     * @param aggregate operatore SQL di aggregazione (min, max).
      * @return aggregato cercato.
      * @throws SQLException
      * @throws NoValueException
