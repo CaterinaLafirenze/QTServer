@@ -35,6 +35,12 @@ abstract class Item implements Serializable {
     Object getValue() {
         return value;
     }
+
+
+    /**
+     * Metodo che restituisce il valore dell'oggetto value come stringa.
+     * @return il valore.
+     */
     public String toString() {
         return value.toString();
     }

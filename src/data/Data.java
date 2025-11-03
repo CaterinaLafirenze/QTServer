@@ -79,9 +79,9 @@ public class Data {
         return numberOfExamples;
     }
 
-    public int getNumberOfAttributes() {
+    /*public int getNumberOfAttributes() {
         return attributeSet.size();
-    }
+    }*/
 
     /**
      * Prende l'indice corrispondente allo attributo e restituisce il valore di data ad esso associato.

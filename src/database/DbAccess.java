@@ -59,7 +59,7 @@ public class DbAccess {
      * Metodo che restituisce la connessione.
      * @return connessione.
      */
-    public Connection getConnection() { return conn;}
+    Connection getConnection() { return conn;}
 
     /**
      * Metodo che chiude la connessione.

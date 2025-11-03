@@ -22,7 +22,7 @@ import database.TableSchema.Column;
  */
 public class TableData {
 
-	DbAccess db;
+	private DbAccess db;
 
     /**
      * Costruttore della classe TableData. Inizializza il database.

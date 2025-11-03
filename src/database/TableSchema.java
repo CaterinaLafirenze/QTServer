@@ -13,9 +13,11 @@ import java.util.List;
  * Classe che modella lo schema di una tabella nel database relazionale.
  */
 public class TableSchema {
-	DbAccess db;
+	private DbAccess db;
 
-
+    /**
+     * Classe che modella una colonna del database.
+     */
 	public class Column{
 		private String name;
 		private String type;
@@ -103,7 +105,7 @@ public class TableSchema {
      * Prende il numero di attributo della tabella.
      * @return dimensione della tabella.
      */
-		public int getNumberOfAttributes(){
+     int getNumberOfAttributes(){
 			return tableSchema.size();
 		}
 
@@ -112,7 +114,7 @@ public class TableSchema {
      * @param index indice.
      * @return la colonna.
      */
-    public Column getColumn(int index){
+     Column getColumn(int index){
 			return tableSchema.get(index);
 		}
 

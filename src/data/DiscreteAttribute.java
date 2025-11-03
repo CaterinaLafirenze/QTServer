@@ -23,7 +23,7 @@ public class DiscreteAttribute extends Attribute implements Iterable<String>{
      * @param index indice dello attributo
      * @param values valore dello attributo
      */
-    public DiscreteAttribute(String name, int index, TreeSet<String> values) {
+    DiscreteAttribute(String name, int index, TreeSet<String> values) {
 
         super(name,index);
         this.values=values;

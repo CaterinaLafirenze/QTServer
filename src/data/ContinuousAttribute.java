@@ -31,20 +31,20 @@ public class ContinuousAttribute extends Attribute{
      * Metodo che restituisce il massimo valore dell'intervallo.
      * @return il massimo.
      */
-    public double getMax(){return max;}
+    private double getMax(){return max;}
 
     /**
      * Metodo che restituisce il minimo valore dell'intervallo.
      * @return il minimo.
      */
-    public double getMin(){return min;}
+    private double getMin(){return min;}
 
     /**
      * Calcola e restituisce il valore scalato del parametro passato in input.
      * @param v parametro di input.
      * @return il valore scalato.
      */
-    public double getScaledValue(double v) {
+    double getScaledValue(double v) {
         if (v == min) {
             return 0.0;
         } else {
