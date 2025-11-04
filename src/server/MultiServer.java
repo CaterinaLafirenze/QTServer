@@ -13,7 +13,7 @@ import java.net.*;
  * Classe che permette la comunicazione tra client e server con molteplici connessioni.
  */
 public class MultiServer extends ServerSocket {
-    private int PORT = 8080;
+    private int PORT;
     private static MultiServer singleton = null;
     private static TelegramBotsApi bot;
     /**

@@ -44,7 +44,7 @@ public class QTMiner_Bot extends TelegramLongPollingBot{
     private final String serverIp;
     private final int serverPort ;
     private final Map<String, ClientSession> userSession = new HashMap<>();
-    List<String> fileList= new ArrayList<>();
+    private List<String> fileList= new ArrayList<>();
 
     /**
      * Costruttore che inizializza il token, ip e porta contenuti nelle variabili di ambiente.
@@ -402,10 +402,10 @@ public class QTMiner_Bot extends TelegramLongPollingBot{
      * Classe che si occupa della nuova connessione utente Telegram e server.
      */
     static class ClientSession {
-        Socket socket;
-        ObjectOutputStream out;
-        ObjectInputStream in;
-        String state;
+        private Socket socket;
+        private ObjectOutputStream out;
+        private ObjectInputStream in;
+        private String state;
 
         /**
          * Costruttore per ClientSession.
