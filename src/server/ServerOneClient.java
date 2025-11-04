@@ -57,10 +57,7 @@ public class ServerOneClient extends Thread {
 
                         Object receivedObject = in.readObject();
                         if (receivedObject instanceof Number) {
-                               // Safely convert the Number (which might be Integer, Double, etc.) to a Double
                                Double radius = ((Number) receivedObject).doubleValue();
-
-                                 // ... rest of the logic for case "1" ...
 
                                 System.out.println("Echoing: " + radius);
                                 out.writeObject("OK");
@@ -77,12 +74,11 @@ public class ServerOneClient extends Thread {
                             //stampa a video nel run del client il valore dei centroidi
                                 out.writeObject(kmeans.getC().toString(data));
                          } else {
-                                    // Handle the unexpected object type
                                 out.writeObject("ERROR: Tipo di dato non valido per il raggio.");
-                                return; // Exit the switch case after sending the error
+                                return;
                           }
 
-                        //Double radius = (Double) in.readObject();
+
 
 
                         break;
