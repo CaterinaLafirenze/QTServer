@@ -95,9 +95,13 @@ public class ServerOneClient extends Thread {
                     //invia un OK come feedback e stampa a video il file.
                     case "3":
                         //learningFromFile
-                        kmeans = new QTMiner("/home/paprika/IdeaProjects/QTServer/" + in.readObject());
-                        out.writeObject("OK");
-                        out.writeObject(kmeans.getC().toString());
+                        try{
+                            kmeans = new QTMiner((String) in.readObject());
+                            out.writeObject("OK");
+                            out.writeObject(kmeans.getC().toString());
+                        }catch(IOException e){
+                            out.writeObject(e.getMessage());
+                        }
                         break;
                 }
             }

@@ -300,7 +300,6 @@ public class QTMiner_Bot extends TelegramLongPollingBot{
         }
     }
 
-    //aggiungere il fatto che salva il file nella lista
     /**
      * Metodo che permette il salvataggio dei cluster in un file con nome determinato dallo utente. Al termine della operazione avvisa lo utente del formato del file e del
      * corretto salvataggio e richiede se vuole effettuare una nuova esecuzione sulla stessa tabella.
@@ -314,7 +313,8 @@ public class QTMiner_Bot extends TelegramLongPollingBot{
         session.out.writeObject(2);
         fileList.add(receivedFileName);
         session.out.writeObject(receivedFileName);
-        this.sendMessage(chatId, "\n Salvataggio del cluster in " + receivedFileName + ".dmp\nSalvataggio terminato!\n");
+        receivedFileName += ".dmp";
+        this.sendMessage(chatId, "\n Salvataggio del cluster in " + receivedFileName + "\nSalvataggio terminato!\n");
         String result = (String) session.in.readObject();
         if(!result.equals("OK"))
             throw new ServerException(result);
